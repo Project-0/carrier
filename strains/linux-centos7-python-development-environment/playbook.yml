@@ -1,10 +1,19 @@
 ---
 - hosts: all
-  sudo: True
+  become: yes
   tasks:
   - name: ensure latest nss
     yum: name=nss state=latest
   - name: enable the EPEL repository
     yum: name=http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
-  - name: install git
-    yum: name=git.x86_64 state=latest
+
+# Install dwm
+# Pip install virtualenv, venvwrapper, IPython Notebook and pudb
+# import user preferences...
+# install firefox
+# install Sublime Text
+
+  roles:
+    - { role: kbrebanov.tmux }
+    - { role: geerlingguy.git }
+    - { role: andrewrothstein.emacs }
