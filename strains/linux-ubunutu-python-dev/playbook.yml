@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+
+# needs sublime_text
+# needs user imports...
+
+  roles:
+    - { role: andyceo.git }
