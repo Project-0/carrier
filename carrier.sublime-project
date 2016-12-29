@@ -2,6 +2,16 @@
 	"folders":
 	[
 		{
+			"file_exclude_patterns":
+			[
+				".gitignore",
+				"carrier.sublime-project",
+				"carrier.sublime-workspace"
+			],
+			"folder_exclude_patterns":
+			[
+				".git"
+			],
 			"path": "."
 		}
 	]
