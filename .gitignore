@@ -66,3 +66,9 @@ target/
 
 # Ansible artifacts
 *.retry
+
+# Mac files
+*.DS_Store
+
+# Sublime files
+*.sublime-workspaces

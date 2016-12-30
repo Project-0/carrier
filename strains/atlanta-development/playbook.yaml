@@ -1,0 +1,62 @@
+---
+- hosts: atlantaservers
+  roles:
+    - udondan.ssh-reconnect
+  remote_user: atlanta-control
+  vars:
+    add_remotes: true
+
+  tasks:
+  - name: ensure git is installed at the latest version
+    apt: name=git state=latest
+  - name: add git user
+    user:
+      name: git
+      shell: /bin/bash
+      groups: atlanta-control
+      append: true
+    become: true
+  - name: add current user to git allowed_hosts
+    authorized_key:
+      user: git
+      state: present
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    become: true
+  - name: update user groups
+    user: append=true groups=atlanta-control,git name={{ item }}
+    with_items:
+      - jason.hamilton
+    become: true
+  - name: reconnect to services
+    ssh-reconnect: all=True
+  - name: create folder structures
+    file:
+      dest: /srv/git
+      mode: 0764
+      owner: git
+      group: atlanta-control
+      state: directory
+      recurse: yes
+    become: yes
+    become_user: git
+  - name: clone atlanta
+    git:
+      repo: git://github.com/Project-0/Atlanta.git
+      dest: /srv/git/Atlanta.git
+      bare: yes
+      remote: origin
+    become: yes
+    become_user: git
+  - name: remove remotes (for idempotency)
+    command: git remote remove {{ item }} chdir=/srv/git/Atlanta.git
+    with_items:
+      - kvorak.net
+    become: yes
+    become_user: git
+  - name: add atlanta remotes
+    command: git remote add {{ item.name }} {{ item.url }} chdir=/srv/git/Atlanta.git
+    with_items:
+      - { name: 'kvorak.net', url: 'git@192.168.1.127:/srv/kvorak/Atlanta.git' }
+    become: yes
+    become_user: git
+
