@@ -1,0 +1,3 @@
+[submodule "strains/atlanta-local"]
+	path = strains/atlanta-local
+	url = git@github.com:kvorak/atlanta-local.git
