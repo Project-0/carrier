@@ -1,0 +1,24 @@
+# A default Atlanta-Carrier provides the ability to replicate itself
+#
+# version: latest
+# carrier-template-path: /usr/lib/atlanta-carrier/templates
+# user-volume: ~/
+
+version: '3'
+
+services:
+    carrier:
+        build: 
+            context: ./
+            dockerfile: ./docker/Dockerfile
+        image: carrier:latest
+        environment:
+            - IMPORT_PATH=/usr/lib/carrier/templates/
+            - EXPORT_PATH=/var/carrier/strains/
+        volumes:
+            - type: {{ templates_volume_type }}
+              source: {{ templates_volume_source }}
+              target: /usr/lib/carrier/templates/
+            - type: {{ strains_volume_type }}
+              source: {{ strains_volume_source }}
+              target: /var/carrier/strains

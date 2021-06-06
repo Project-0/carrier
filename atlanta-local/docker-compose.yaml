@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+    lpm:
+        image: lpm:latest
+        environment:
+            - LPM_PROJECT_ROOT=/home/git/projects
+            - LPM_GIT_ROOT=/git-server/repos
+        ports:
+            - 22:2222
+        volumes:
+            - atl-local-auth:/git-server/keys
+            - atl-local-git:/git-server/repos
+            - atl-local-projects:/home/git/projects
+    dev:
+        image: atlanta-local:latest
+        ports:
+            - 8888:8888
+        volumes:
+            - atl-local-auth:/root/.ssh
+            - atl-local-projects:/root/projects
+volumes:
+    atl-local-auth:
+    atl-local-projects:
+    atl-local-git:

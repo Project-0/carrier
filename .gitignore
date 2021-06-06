@@ -1,3 +1,6 @@
+# Atlanta-Carrier project artifacts
+strains/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -23,6 +26,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+*.vagrant/
+Pipfile.lock
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -60,3 +65,11 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#VSCode
+.vscode/
+.devcontainer/
+*.__pycache__/
+
+# Security
+id_rsa.pub

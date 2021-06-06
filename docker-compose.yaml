@@ -1,0 +1,32 @@
+# A default Atlanta-Carrier service
+version: '3'
+
+services:
+    carrier:
+        build: 
+            context: ./
+            dockerfile: ./docker/Dockerfile
+        image: carrier:latest
+        environment:
+            - IMPORT_PATH=/usr/lib/carrier/templates/
+            - EXPORT_PATH=/var/carrier/strains/
+        ports:
+            - 5000:5000
+        volumes:
+            - ./src/carrier:/usr/lib/carrier
+            - ./strains:/var/carrier/strains
+
+    mongo:
+        image: mongo:latest
+        restart: always
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=example
+    mongo-express:
+        image: mongo-express:latest
+        restart: always
+        ports:
+            - 8081:8081
+        environment:
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=example

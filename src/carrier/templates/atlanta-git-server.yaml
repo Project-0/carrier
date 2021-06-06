@@ -1,0 +1,35 @@
+# A default Atlanta-Carrier provides the ability to replicate itself
+#
+# version: latest
+# carrier-template-path: /usr/lib/atlanta-carrier/templates
+# user-volume: ~/
+
+version: '3'
+
+services:
+    samba:
+        image: dperson/samba
+        ports:
+            - "139:139"
+            - "445:445"
+        volumes:
+            - {{username}}_projects:/mount
+        command: >
+            -s "{{username}};/mount;yes;no;no;;{{username}}"
+            -u "{{username}};{{password}}"
+    git-server:
+        image: jkarlos/git-server-docker:latest
+        ports:
+            - "2222:22"
+        volumes:
+            - {{username}}_git:/git-server/repos
+            - {{keypath}}:/git-server/keys
+    lpm:
+        image: python:3.7
+        volumes:
+            - {{username}}_projects:/projects
+            - {{keypath}}:/root/.ssh
+
+volumes:
+    {{username}}_git:
+    {{username}}_projects:
